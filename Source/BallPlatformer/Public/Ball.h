@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "InputMappingContext.h"
 #include "Ball.generated.h"
 
 UCLASS()
@@ -25,6 +26,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	void PerformMove(FVector2D direction);
+	void PerformJump();
 
-	void Move(FVector2f direction);
+	float MoveSpeed = 100.0f;
+	float JumpStrength = 100.0f;
 };
