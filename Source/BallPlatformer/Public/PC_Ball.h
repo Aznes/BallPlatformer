@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "WindController.h"
+class AWindController;
 #include "PC_Ball.generated.h"
 
 /**
@@ -26,7 +28,7 @@ protected:
 public:
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem *Subsystem;
-
+	
 private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -44,4 +46,18 @@ private:
 
 	UPROPERTY()
 	class ABall* PlayerCharacter;
+
+	/** Capture les inputs de la souris */
+	void HandleWindDirection(const FInputActionValue& Value);
+
+	/** Capture l'input pour la force du vent */
+	void HandleWindControl(const FInputActionValue& Value);
+
+	/** Met à jour la direction du vent avec l'input */
+	void UpdateWindDirection(const FInputActionValue& Value);
+
+	/** Modifie la force du vent (clic gauche pour augmenter, clic droit pour diminuer) */
+	void UpdateWindForce(const FInputActionValue& Value);
+	
+	AWindController* WindController;
 };

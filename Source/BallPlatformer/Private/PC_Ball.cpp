@@ -7,12 +7,13 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Ball.h"
+#include "WindController.h"
 
 void APC_Ball::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// PlayerCharacter=Cast<ABall>(GetPawn());
+	PlayerCharacter=Cast<ABall>(GetPawn());
 	// Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	// if (Subsystem)
 	// {
@@ -28,24 +29,18 @@ void APC_Ball::BeginPlay()
 
 		if (InputSubsystem)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Subsystem loaded correctly."));
-			
-			// Charger dynamiquement le Mapping Context
 			UInputMappingContext* IMC = LoadObject<UInputMappingContext>(nullptr, TEXT("/Game/IMC_Default.IMC_Default"));
 			if (IMC)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("IMC_Default Loaded Successfully! Adding to Mapping Context..."));
 				InputSubsystem->AddMappingContext(IMC, 0);
 			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("Failed to load IMC_Default! Check the path."));
-			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Failed to load Enhanced Input Subsystem!"));
-		}
+	}
+
+	// Récupérer la balle contrôlée
+	if (PlayerCharacter)
+	{
+		WindController = PlayerCharacter->WindController;
 	}
 }
 
@@ -60,30 +55,25 @@ void APC_Ball::SetupInputComponent()
 		{
 			EnhancedInputComp->BindAction(IA_Move, ETriggerEvent::Triggered, this, &APC_Ball::Move);
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Failed to load IA_Move. Check the asset path!"));
-		}
 
 		UInputAction* IA_Jump = LoadObject<UInputAction>(nullptr, TEXT("/Game/IA_Jump.IA_Jump"));
 		if (IA_Jump)
 		{
-			EnhancedInputComp->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &APC_Ball::Jump);
+			EnhancedInputComp->BindAction(IA_Jump, ETriggerEvent::Started, this, &APC_Ball::Jump);
 		}
-		else
+
+		UInputAction* IA_WindDirection = LoadObject<UInputAction>(nullptr, TEXT("/Game/IA_WindDirection.IA_WindDirection"));
+		if (IA_WindDirection)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Failed to load IA_Jump. Check the asset path!"));
+			EnhancedInputComp->BindAction(IA_WindDirection, ETriggerEvent::Triggered, this, &APC_Ball::UpdateWindDirection);
+		}
+		
+		UInputAction* IA_WindControl = LoadObject<UInputAction>(nullptr, TEXT("/Game/IA_WindControl.IA_WindControl"));
+		if (IA_WindControl)
+		{
+			EnhancedInputComp->BindAction(IA_WindControl, ETriggerEvent::Triggered, this, &APC_Ball::UpdateWindForce);
 		}
 	}
-	
-	// if (PlayerCharacter)
-	// {
-	// 	if (UEnhancedInputComponent *EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
-	// 	{
-	// 		EnhancedInputComponent->BindAction(IA_Move,ETriggerEvent::Triggered,PlayerCharacter, &ABall::Move);
-	// 		EnhancedInputComponent->BindAction(IA_Jump,ETriggerEvent::Triggered,PlayerCharacter, &ABall::Jump);
-	// 	}
-	// }
 }
 
 void APC_Ball::Move(const FInputActionValue& Value)
@@ -106,6 +96,59 @@ void APC_Ball::Jump()
 		if (ABall* Ball = Cast<ABall>(ControlledPawn))
 		{
 			Ball->PerformJump();
+		}
+	}
+}
+
+void APC_Ball::HandleWindDirection(const FInputActionValue& Value)
+{
+	FVector2D WindInput = Value.Get<FVector2D>();
+
+	if (WindController)
+	{
+		WindController->SetWindDirection(WindInput);
+	}
+}
+
+void APC_Ball::HandleWindControl(const FInputActionValue& Value)
+{
+	bool bIncrease = Value.Get<bool>();
+
+	if (WindController)
+	{
+		WindController->SetWindControl(bIncrease);
+	}
+}
+
+void APC_Ball::UpdateWindDirection(const FInputActionValue& Value)
+{
+	FVector2D WindInput = Value.Get<FVector2D>();
+	UE_LOG(LogTemp, Warning, TEXT("Wind Direction Input: %s"), *WindInput.ToString());
+
+	if (WindController)
+	{
+		WindController->SetWindDirection(WindInput);
+	}
+}
+
+void APC_Ball::UpdateWindForce(const FInputActionValue& Value)
+{
+	float WindInput = Value.Get<float>();  // Enhanced Input gère le negate en float
+
+	bool bIncrease = WindInput > 0.0f;
+	bool bDecrease = WindInput < 0.0f;
+
+	UE_LOG(LogTemp, Warning, TEXT("Wind Control Input: %s"), bIncrease ? TEXT("Increase") : TEXT("Decrease"));
+
+	if (WindController)
+	{
+		if (bIncrease)
+		{
+			WindController->SetWindControl(true);
+		}
+		else if (bDecrease)
+		{
+			WindController->SetWindControl(false);
 		}
 	}
 }

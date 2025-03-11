@@ -2,6 +2,7 @@
 
 
 #include "Ball.h"
+#include "WindController.h"
 #include "EnhancedInputSubsystems.h"
 
 #include "KismetTraceUtils.h"
@@ -10,26 +11,31 @@
 #include "Misc/MapErrors.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
-// Sets default values
 ABall::ABall()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void ABall::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
+	if (WindController)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("WindController successfully referenced in Ball: %s"), *WindController->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("WindController NOT assigned in Blueprint!"));
+	}
 }
 
-// Called every frame
 void ABall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-// Called to bind functionality to input
 void ABall::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -41,14 +47,44 @@ void ABall::PerformMove(FVector2D direction)
 
 	if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(GetComponentByClass(UStaticMeshComponent::StaticClass())))
 	{
-		Mesh->AddForce(MoveVector  * MoveSpeed, NAME_None, true); // Appliquer une force pour le déplacement
+		Mesh->AddForce(MoveVector  * MoveSpeed, NAME_None, true);
 	}
 }
 
 void ABall::PerformJump()
 {
+	if (JumpCount > 0 || CheckIfGrounded())
+	{
+		if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(GetComponentByClass(UStaticMeshComponent::StaticClass())))
+		{
+			Mesh->AddImpulse(FVector(0, 0, JumpStrength), NAME_None, true);
+			JumpCount--;
+			IsGrounded = false;
+		}
+	}
+}
+
+bool ABall::CheckIfGrounded()
+{
 	if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(GetComponentByClass(UStaticMeshComponent::StaticClass())))
 	{
-		Mesh->AddImpulse(FVector(0, 0, JumpStrength), NAME_None, true); // Appliquer une impulsion verticale
+		FVector Start = GetActorLocation();
+		FVector End = Start + FVector(0, 0, -DoubleJumpRange);
+
+		FHitResult HitResult;
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(this);
+		
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams))
+		{
+			JumpCount = 2;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
+
+	return false;
 }

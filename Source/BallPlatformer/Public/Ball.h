@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "InputMappingContext.h"
+class AWindController;
 #include "Ball.generated.h"
 
 UCLASS()
@@ -13,23 +14,31 @@ class BALLPLATFORMER_API ABall : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	ABall();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wind Settings")
+	AWindController* WindController;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	void PerformMove(FVector2D direction);
 	void PerformJump();
 
-	float MoveSpeed = 100.0f;
-	float JumpStrength = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements")
+	float MoveSpeed = 1000.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements")
+	float JumpStrength = 300.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements")
+	int JumpCount = 2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements")
+	float DoubleJumpRange = 105.0f;
+	
+	bool IsGrounded;
+
+	bool CheckIfGrounded();
 };

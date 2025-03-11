@@ -12,10 +12,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0bb2fe5-d6b6-431e-bd73-9315888ef67d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BallPlatformer/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/IMC_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/IMC_Default.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BallPlatformer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BallPlatformer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP_Ball.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP_Ball.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/TestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/TestMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BallPlatformer/BallPlatformer.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BallPlatformer/BallPlatformer.Build.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BallPlatformer/Private/Ball.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BallPlatformer/Private/Ball.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/BallPlatformer/Private/PC_Ball.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BallPlatformer/Private/PC_Ball.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/BallPlatformer/Public/Ball.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/BallPlatformer/Public/Ball.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,15 +29,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://2" root0="FORCE_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://3" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.5/Engine/Source/Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/BallPlatformer/UHT/MovingPlatform.generated.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Private/Bumper.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Private/QuicksandZone.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Private/WindController.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Public/Bumper.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Public/QuicksandZone.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/BallPlatformer/Public/WindController.h" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -46,20 +47,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C/C++ Project.BallPlatformer.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C/C++ Project.BallPlatformer.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C/C++ Project.BallPlatformer">
     <configuration name="BallPlatformer" type="CppProject" factoryName="C++ Project">
       <configuration_1 setup="1">
@@ -153,7 +154,16 @@
       <option name="presentableId" value="Default" />
       <updated>1741381813816</updated>
       <workItem from="1741381819064" duration="619000" />
-      <workItem from="1741439344290" duration="9959000" />
+      <workItem from="1741439344290" duration="13581000" />
+      <workItem from="1741549052539" duration="466000" />
+      <workItem from="1741549967480" duration="816000" />
+      <workItem from="1741551127226" duration="8957000" />
+      <workItem from="1741602632836" duration="2433000" />
+      <workItem from="1741634393943" duration="9728000" />
+      <workItem from="1741648061653" duration="5111000" />
+      <workItem from="1741677887454" duration="2545000" />
+      <workItem from="1741683380638" duration="848000" />
+      <workItem from="1741687046200" duration="865000" />
     </task>
     <servers />
   </component>
