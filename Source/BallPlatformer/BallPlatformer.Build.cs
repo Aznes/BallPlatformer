@@ -12,6 +12,12 @@ public class BallPlatformer : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 		
+		PublicDependencyModuleNames.AddRange(new string[] {
+			"Core", "CoreUObject", "Engine", "InputCore" });
+
+		PrivateDependencyModuleNames.AddRange(new string[] {
+			"Slate", "SlateCore", "UnrealEd" });
+		
 		//bUseUnity = false;
 		
 		// Uncomment if you are using Slate UI
